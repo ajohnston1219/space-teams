@@ -1,0 +1,32 @@
+# Intermediate
+FROM ajohnston1219/flyway as migrator
+ARG PG_PASSWORD
+ARG ADMIN_PASSWORD
+ARG APP_PASSWORD
+WORKDIR /home/db
+
+COPY --chown=postgres:postgres . .
+
+# Temp store password
+RUN mkdir -p /home/postgres
+RUN chown postgres:postgres -R /home/postgres
+RUN echo "localhost:*:*:postgres:${PG_PASSWORD}" >> /home/postgres/.pgpass
+RUN chmod 600 /home/postgres/.pgpass
+
+# DB Config and Migration
+RUN chown postgres:postgres /usr/local/bin/flyway
+RUN chmod 700 /home/db/config-sdcc.sh
+RUN su postgres -c "/home/db/config-sdcc.sh ${PG_PASSWORD} ${ADMIN_PASSWORD} ${APP_PASSWORD}"
+
+# Main
+FROM postgres:12.3-alpine 
+
+# Transfer
+COPY --from=migrator --chown=postgres:postgres /usr/local/pgsql /usr/local/pgsql
+COPY --from=migrator --chown=postgres:postgres /run/postgresql /run/postgresql
+
+# Scripts
+COPY --from=migrator --chown=postgres:postgres /home/db/scripts /home/db/scripts
+
+# Exec
+CMD ["su", "postgres", "-c", "postgres -D /usr/local/pgsql/data 2>&1"]

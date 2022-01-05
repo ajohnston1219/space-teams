@@ -1,0 +1,31 @@
+version: "3.4"
+services:
+  auth:
+    image: ajohnston1219/auth:dev
+    build:
+      context: ./auth
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /home/app/node_modules
+      - ./auth:/home/app
+    environment:
+      - DB_PASSWORD=spacecraft
+      - PG_HOSTNAME=db
+      - API_KEY=SPACECRAFT-AUTH
+      - APP_NAME=auth
+      - WEBSITE_URL=http://localhost:8080
+      - NAMESPACE
+    ports:
+      - 5000:5000
+    restart: always
+  db:
+    image: ajohnston1219/db:dev
+    build:
+      context: ./db
+      dockerfile: Dockerfile.dev
+      args:
+        PG_PASSWORD: postgres
+        ADMIN_PASSWORD: spacecraft
+        APP_PASSWORD: spacecraft
+    ports:
+      - 5432:5432

@@ -1,0 +1,6 @@
+FROM alpine
+
+COPY ./servers.json servers.json
+COPY ./access.log access.log
+RUN chmod 700 servers.json
+RUN chmod 700 access.log

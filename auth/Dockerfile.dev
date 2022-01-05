@@ -1,0 +1,19 @@
+# Main
+FROM node:alpine
+WORKDIR /home/app
+RUN apk add --update bash
+RUN apk add --update python2
+
+# Transfer
+COPY . .
+
+# NPM
+RUN npm install -g typescript ts-node nodemon
+RUN npm install
+
+# Compile
+RUN tsc
+
+# Exec
+RUN chmod 100 ./entrypoint.sh
+ENTRYPOINT ./entrypoint.sh

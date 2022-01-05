@@ -1,0 +1,23 @@
+{
+  "name": "competitions",
+  "version": "1.0.0",
+  "description": "Competitions service for Space Teams project",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Adam Johnston",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/uuid": "^8.3.3",
+    "jest": "^27.4.5",
+    "sinon": "^12.0.1",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}
