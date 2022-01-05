@@ -59,8 +59,9 @@ function getInviteStatus(status: string): InviteStatus {
 export default class UserRepository {
     public async findUserById(id: string): Promise<User | null> {
         const users = await db.query(q.findUserById(id));
-        if (users.length === 0)
+        if (users.length === 0) {
             return null;
+        }
         const userRow = users[0];
         let address = null;
         if (userRow.address) {

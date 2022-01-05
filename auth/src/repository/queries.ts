@@ -1,6 +1,7 @@
-import { AccountInfo, UserType } from "../model/user";
+import { AccountInfo, TeamRole, UserType } from "../model/user";
 import { sql, SQLQuery } from "./database";
 import { DEFAULT_REGISTRATION_SOURCE_ID } from "../constants";
+import Team from "../model/team";
 
 export const findUserById = (id: string): SQLQuery => sql`
 SELECT
@@ -61,3 +62,40 @@ zip_code = ${accountInfo.address.zipCode},
 country = ${accountInfo.address.country},
 school_or_organization = ${accountInfo.schoolOrOrganization}
 WHERE id = ${id}`;
+
+export const findTeamById = (id: string): SQLQuery => sql`
+SELECT t.id, t.name, t.active, ct.competition_id
+FROM auth.teams t
+LEFT JOIN competition_teams ct ON ct.team_id = t.id
+WHERE t.id = ${id}
+`;
+
+export const findTeamMembersByTeamId = (id: string): SQLQuery => sql`
+SELECT tm.team_id, tm.user_id,
+(SELECT name FROM auth.team_roles WHERE id = tm.role) AS role
+FROM auth.team_members tm WHERE tm.team_id = ${id}
+`;
+
+export const insertTeam = (
+    id: string,
+    name: string
+): SQLQuery => sql`
+INSERT INTO auth.teams (id, name, active) VALUES (${id}, ${name}, true)
+`;
+
+export const addTeamMember = (
+    teamId: string,
+    userId: string,
+    role: TeamRole
+): SQLQuery => sql`
+INSERT INTO auth.team_members (team_id, user_id, role)
+VALUES (${teamId}, ${userId},
+(SELECT id FROM auth.team_roles WHERE name = ${role.toString()}))
+`;
+
+export const removeTeamMember = (
+    teamId: string,
+    userId: string
+): SQLQuery => sql`
+DELETE FROM auth.team_members WHERE team_id = ${teamId} AND user_id = ${userId}
+`;

@@ -16,7 +16,7 @@ export default class UserService {
         const user = await UserFactory.createInitial(
             request.username, request.email, request.password
         );
-        this.userRepository.createUser(user);
+        await this.userRepository.createUser(user);
         return user;
     }
 

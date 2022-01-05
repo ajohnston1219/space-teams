@@ -68,6 +68,19 @@ describe("Team", () => {
         expect(act).toThrow();
     });
 
+    it("Cannot add owner when team already has an owner", () => {
+        // Arrange
+        const team = createTeam({});
+        const userId = uuid.v4();
+        const member = new TeamMember(userId, TeamRole.OWNER);
+
+        // Act
+        const act = () => team.addMember(member);
+
+        // Assert
+        expect(act).toThrow();
+    });
+
     it("Successfully removes member", () => {
         // Arrange
         const team = createTeam({});

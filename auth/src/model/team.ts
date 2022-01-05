@@ -15,11 +15,18 @@ export default class Team {
         private _competitionId: string,
         private _active: boolean,
         private _members: TeamMember[]
-    ) {}
+    ) {
+        if (_members.length === 0 || !_members.some(m => m.role === TeamRole.OWNER)) {
+            throw new Error("Team must have an owner");
+        }
+    }
 
     public addMember(member: TeamMember) {
         if (this.isMember(member.userId)) {
             throw new Error("User is already a member of this team");
+        }
+        if (member.role === TeamRole.OWNER) {
+            throw new Error("Team can only have one owner");
         }
         this._members.push(member);
     }

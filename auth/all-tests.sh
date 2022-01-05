@@ -2,5 +2,6 @@
 
 npm test
 docker-compose up --build -d db
-npx jest integration
+sleep 3
+npx jest integration --runInBand
 docker-compose kill db
