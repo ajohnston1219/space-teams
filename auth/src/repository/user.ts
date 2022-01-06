@@ -63,6 +63,47 @@ export default class UserRepository {
             return null;
         }
         const userRow = users[0];
+        const user = this.constructUser(userRow);
+        return user;
+    }
+
+    public async findUserByUsername(username: string): Promise<User | null> {
+        const users = await db.query(q.findUserByUsername(username));
+        if (users.length === 0) {
+            return null;
+        }
+        const userRow = users[0];
+        const user = this.constructUser(userRow);
+        return user;
+    }
+
+    public async findUserByEmail(email: string): Promise<User | null> {
+        const users = await db.query(q.findUserByEmail(email));
+        if (users.length === 0) {
+            return null;
+        }
+        const userRow = users[0];
+        const user = this.constructUser(userRow);
+        return user;
+    }
+
+    public async createUser(user: User): Promise<void> {
+        await db.query(q.insertNewUser(
+            user.id, user.username, user.email, user.password
+        ));
+    }
+
+    public async activateUser(user: User): Promise<void> {
+        if (!user.accountInfo) {
+            throw new Error("User must have account info to activate");
+        }
+        await db.query(q.insertAccountInfo(
+            user.id, user.userType, user.accountInfo
+        ));
+    }
+
+    private async constructUser(userRow: any): Promise<User> {
+        const id = userRow.id;
         let address = null;
         if (userRow.address) {
             address = new Address(
@@ -118,20 +159,5 @@ export default class UserRepository {
             invites, userComps
         );
         return user;
-    }
-
-    public async createUser(user: User): Promise<void> {
-        await db.query(q.insertNewUser(
-            user.id, user.username, user.email, user.password
-        ));
-    }
-
-    public async activateUser(user: User): Promise<void> {
-        if (!user.accountInfo) {
-            throw new Error("User must have account info to activate");
-        }
-        await db.query(q.insertAccountInfo(
-            user.id, user.userType, user.accountInfo
-        ));
     }
 }

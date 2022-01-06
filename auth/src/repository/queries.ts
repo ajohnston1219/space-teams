@@ -1,9 +1,8 @@
 import { AccountInfo, TeamRole, UserType } from "../model/user";
 import { sql, SQLQuery } from "./database";
 import { DEFAULT_REGISTRATION_SOURCE_ID } from "../constants";
-import Team from "../model/team";
 
-export const findUserById = (id: string): SQLQuery => sql`
+const userSelect = sql.__dangerous__rawValue(`
 SELECT
 u.*,
 (SELECT name FROM auth.user_types WHERE id = u.type) AS user_type,
@@ -19,7 +18,19 @@ r.code AS registration_source_code
 FROM auth.users u
 LEFT JOIN auth.parents p ON p.user_id = u.id
 JOIN auth.registration_sources r ON r.id = u.registration_source
+`);
+
+export const findUserById = (id: string): SQLQuery => sql`
+${userSelect}
 WHERE u.id = ${id}`;
+
+export const findUserByUsername = (username: string): SQLQuery => sql`
+${userSelect}
+WHERE u.username = ${username}`;
+
+export const findUserByEmail = (email: string): SQLQuery => sql`
+${userSelect}
+WHERE u.email = ${email}`;
 
 export const getUserInvites = (userId: string): SQLQuery => sql`
 SELECT ti.*, (SELECT name FROM auth.invite_status WHERE id = ti.status) AS status
