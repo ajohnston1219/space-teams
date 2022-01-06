@@ -2,6 +2,7 @@ import TeamRepository from "../repository/team";
 import Team, { TeamFactory, TeamMember } from "../model/team";
 import UserService from "./user";
 import { TeamRole } from "../model/user";
+import CompetitionService from "../external/competition";
 
 export interface CreateTeamRequest {
     userId: string;
@@ -12,14 +13,15 @@ export interface CreateTeamRequest {
 export default class TeamService {
     constructor(
         private teamRepository: TeamRepository,
-        private userService: UserService
+        private userService: UserService,
+        private competitionService: CompetitionService
     ) {}
 
     public async createTeam(request: CreateTeamRequest): Promise<Team> {
-        // TODO(adam): Coordinate with competition service
         const team = TeamFactory.createTeam(
             request.userId, request.teamName, request.competitionId
         );
+        await this.competitionService.registerTeamForCompetition(request.competitionId, team);
         const user = await this.userService.getUserById(request.userId);
         if (user === null) {
             throw new Error("User not found");

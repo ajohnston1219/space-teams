@@ -22,7 +22,7 @@ echo "Creating service ${SERVICE_NAME}..."
 mkdir $SERVICE_NAME
 cd $SERVICE_NAME
 npm init
-npm i -D typescript jest sinon ts-jest ts-node @types/jest
+npm i -D typescript jest sinon ts-jest ts-node @types/jest @types/sinon
 tsc --init
 
 mkdir src

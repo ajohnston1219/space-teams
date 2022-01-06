@@ -4,7 +4,9 @@ import UserService, { CreateUserRequest } from "../../service/user";
 import UserRepository from "../../repository/user";
 import User, { TeamRole } from "../../model/user";
 import Team, { TeamMember } from "../../model/team";
+import CompetitionService from "../../external/competition";
 import db, { sql } from "../../repository/database";
+import sinon from "sinon";
 
 const COMPETITION_ID = "6ee2f37d-1342-4f2c-928c-c766eb3aa1dd";
 
@@ -62,13 +64,20 @@ describe("Team Service", () => {
         });
     });
 
+    const sandbox = sinon.createSandbox();
     let userService: UserService;
     let teamService: TeamService;
+    let competitionService: CompetitionService;
     beforeEach(() => {
         userService = new UserService(new UserRepository());
+        competitionService = new CompetitionService();
         teamService = new TeamService(
-            new TeamRepository(), userService
+            new TeamRepository(), userService, competitionService
         );
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     afterAll(() => {
@@ -78,6 +87,8 @@ describe("Team Service", () => {
     it("Successfully creates a new team", async () => {
         // Arrange
         await cleanDatabase();
+        sandbox.stub(competitionService, "registerTeamForCompetition")
+            .callsFake(async () => {});
         const user = await createUser(userService, {});
         const request: CreateTeamRequest = {
             userId: user.id,
@@ -93,8 +104,7 @@ describe("Team Service", () => {
         expect(actual).not.toBeNull();
         expect(actual?.id).toBe(team.id);
         expect(actual?.name).toBe(request.teamName);
-        // NOTE(adam): Have to integrate with competition service before
-        //             this can be tested
+        // NOTE(adam): Cannot test this until we are synchronizing a local view
         // expect(actual?.competitionId).toBe(request.competitionId);
         expect(actual?.members.length).toBe(1);
         const members = actual?.members;
@@ -104,9 +114,32 @@ describe("Team Service", () => {
         expect(members && members[0]).toStrictEqual(expectedMember);
     });
 
+    it("Fails to create team when competition service fails", async () => {
+        // Arrange
+        await cleanDatabase();
+        sandbox.stub(competitionService, "registerTeamForCompetition")
+            .rejects();
+        const user = await createUser(userService, {});
+        const request: CreateTeamRequest = {
+            userId: user.id,
+            teamName: "my-team",
+            competitionId: COMPETITION_ID
+        };
+
+        // Act
+        const act = async () => await teamService.createTeam(request);
+
+        // Assert
+        expect(act).rejects.toThrow();
+        const actual = await userService.getUserById(user.id);
+        expect(actual?.competitions.length).toBe(0);
+    });
+
     it("Successfully adds a member to a team", async () => {
         // Arrange
         await cleanDatabase();
+        sandbox.stub(competitionService, "registerTeamForCompetition")
+            .callsFake(async () => {});
         const team = await createTeam(userService, teamService);
         const user = await createUser(userService, { username: "test-member", email: "test@members.com" });
         const teamMember = new TeamMember(user.id, TeamRole.MEMBER);

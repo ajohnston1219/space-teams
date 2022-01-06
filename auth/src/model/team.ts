@@ -48,6 +48,13 @@ export default class Team {
 
     public markAsDeleted() { this._active = false; }
 
+    public get owner(): TeamMember {
+        const owner = this.members.find(tm => tm.role === TeamRole.OWNER);
+        if (!owner) {
+            throw new Error("No owner found for this team");
+        }
+        return owner;
+    }
     public get id(): string { return this._id; }
     public get name(): string { return this._name; }
     public get competitionId(): string { return this._competitionId; }
