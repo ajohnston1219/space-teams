@@ -84,7 +84,7 @@ VALUES
      'Surface Operations', 'Gather resources on Vulcan to support your habitat',
      '2021-01-01', '2022-01-01');
 
-INSERT INTO billing.competition_prices
+INSERT INTO billing.legacy_competition_prices
     (competition_id,                         price)
 VALUES
     ('6ee2f37d-1342-4f2c-928c-c766eb3aa1dd', 100.0),
@@ -105,3 +105,5 @@ VALUES
     (0, '6ee2f37d-1342-4f2c-928c-c766eb3aa1dd',  5, 0.05),
     (0, '6ee2f37d-1342-4f2c-928c-c766eb3aa1dd', -1, 0.05),
     (1, '6ee2f37d-1342-4f2c-928c-c766eb3aa1dd', -1, 0.10);
+
+SELECT migrate_competition_prices();
