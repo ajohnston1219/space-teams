@@ -1,0 +1,47 @@
+node {
+    def commit_id
+    env.NODEJS_HOME = "auth"
+    stage('Preparation') {
+        sh 'if docker network ls | grep my-net; then docker network rm my-net; fi'
+        sh "if docker ps | awk '{print \$8}' | grep test-db; then docker kill db; fi"
+        checkout scm
+        sh 'git rev-parse --short HEAD > .git/commit-id'
+        commit_id = readFile('.git/commit-id').trim()
+    }
+    stage('Unit Test') {
+        nodejs(nodeJSInstallationName: 'nodejs') {
+            dir('auth') {
+                sh 'npm install --only=dev'
+                sh 'npm test'
+            }
+        }
+    }
+    stage('Integration Test') {
+        sh 'docker network create my-net'
+        docker
+            .build('ajohnston1219/db:test',
+                   '--build-arg PG_PASSWORD=postgres ' +
+                   '--build-arg ADMIN_PASSWORD=spacecraft ' +
+                   '--build-arg APP_PASSWORD=spacecraft ' +
+                   './db')
+            .withRun('-p 5432:5432 --network my-net --name test-db') { c ->
+                docker
+                    .image('ajohnston1219/db:test')
+                    .inside {
+                        // sh "until PGPASSWORD=postgres psql -h localhost -U postgres -c '\\l'; do echo 'waiting for postgres...'; sleep 1; done"
+                        sh 'sleep 5'
+                    }
+                docker
+                    .image('node:17')
+                    .inside('--network my-net') {
+                        sh 'cd auth && npm install --only=dev && npx jest integration --runInBand --setupFiles=./jest.integration.setup.js'
+                    }
+            }
+        sh 'docker network rm my-net'
+    }
+    stage('Docker Build/Push') {
+        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+            def app = docker.build("ajohnston1219/example-app:${commit_id}", './auth').push()
+        }
+    }
+}

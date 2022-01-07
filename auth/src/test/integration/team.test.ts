@@ -43,27 +43,6 @@ async function createTeam(userService: UserService, teamService: TeamService): P
 }
 
 describe("Team Service", () => {
-    beforeAll(async () => {
-        let attempts = 0;
-        return new Promise<void>((resolve, reject) => {
-            const interval = setInterval(() => {
-                db.query(sql`SELECT`)
-                    .then(() => {
-                        clearInterval(interval);
-                        resolve();
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        ++attempts;
-                        if (attempts > 3) {
-                            console.error("Max attempts reached");
-                            reject(err);
-                        }
-                    });
-            }, 1000);
-        });
-    });
-
     const sandbox = sinon.createSandbox();
     let userService: UserService;
     let teamService: TeamService;

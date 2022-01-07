@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest unit",
     "db-types": "npx @databases/pg-schema-cli --database postgres://spacecraft:spacecraft@localhost:5432/spacecraft --directory src/repository/__generated__",
-    "test:all": "./all-tests.sh"
+    "test:all": "./all-tests.sh",
+    "test:integration": "./integration-tests.sh"
   },
   "author": "Adam Johnston",
   "license": "ISC",
