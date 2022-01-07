@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  auth:
+    image: ajohnston1219/example-app:test
+    environment:
+      - DB_PASSWORD=spacecraft
+      - PG_HOSTNAME=db
+      - API_KEY=SPACECRAFT-AUTH
+      - APP_NAME=auth
+      - WEBSITE_URL=http://localhost:8080
+      - NAMESPACE
+    ports:
+      - 5000:5000
