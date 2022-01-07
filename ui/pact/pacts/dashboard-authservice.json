@@ -1,0 +1,139 @@
+{
+  "consumer": {
+    "name": "Dashboard"
+  },
+  "provider": {
+    "name": "AuthService"
+  },
+  "interactions": [
+    {
+      "description": "a request to create a new user",
+      "providerState": "i do not already have a user with provided username and email",
+      "request": {
+        "method": "POST",
+        "path": "/users",
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "tester-person",
+          "email": "tester@people.com",
+          "password": "SuperSecret007!"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": "49b486db-20dd-4345-8941-37c9d7a4a6ec"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a request to submit account info",
+      "providerState": "i have a user who hasn't submitted their account info yet",
+      "request": {
+        "method": "POST",
+        "path": "/users/account-info",
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "SECRET_TOKEN"
+        },
+        "body": {
+          "firstName": "Tester",
+          "lastName": "Person",
+          "address": "123 Sesame St",
+          "city": "Dallas",
+          "stateOrProvince": "TX",
+          "zipCode": "75201",
+          "country": "US",
+          "dateOfBirth": "2007-12-19",
+          "schoolOrOrganization": "Texas A&M University"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": "2ecb3faf-fcc8-45ba-9da1-07d9d0c81d7d",
+          "username": "tester-person",
+          "email": "tester@people.com",
+          "firstName": "Tester",
+          "lastName": "Person",
+          "address": "123 Sesame St",
+          "city": "Dallas",
+          "stateOrProvince": "TX",
+          "zipCode": "75201",
+          "country": "US",
+          "dateOfBirth": "2007-12-19",
+          "schoolOrOrganization": "Texas A&M University",
+          "desiredCompetitionId": "3fb895aa-a5ca-4aad-8231-39e4f1710086"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a request to submit account info",
+      "providerState": "i don't get an auth token",
+      "request": {
+        "method": "POST",
+        "path": "/users/account-info",
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "firstName": "Tester",
+          "lastName": "Person",
+          "address": "123 Sesame St",
+          "city": "Dallas",
+          "stateOrProvince": "TX",
+          "zipCode": "75201",
+          "country": "US",
+          "dateOfBirth": "2007-12-19",
+          "schoolOrOrganization": "Texas A&M University"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

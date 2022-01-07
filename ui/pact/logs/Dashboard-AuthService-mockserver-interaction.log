@@ -1,0 +1,191 @@
+I, [2022-01-06T19:58:32.885524 #10846]  INFO -- : Registered expected interaction POST /users/account-info
+D, [2022-01-06T19:58:32.885750 #10846] DEBUG -- : {
+  "description": "a request to submit account info",
+  "providerState": "i have a user who hasn't submitted their account info yet",
+  "request": {
+    "method": "POST",
+    "path": "/users/account-info",
+    "headers": {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "SECRET_TOKEN"
+    },
+    "body": {
+      "json_class": "Pact::SomethingLike",
+      "contents": {
+        "firstName": "Tester",
+        "lastName": "Person",
+        "address": "123 Sesame St",
+        "city": "Dallas",
+        "stateOrProvince": "TX",
+        "zipCode": "75201",
+        "country": "US",
+        "dateOfBirth": "2007-12-19",
+        "schoolOrOrganization": "Texas A&M University"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "json_class": "Pact::SomethingLike",
+      "contents": {
+        "id": "2ecb3faf-fcc8-45ba-9da1-07d9d0c81d7d",
+        "username": "tester-person",
+        "email": "tester@people.com",
+        "firstName": "Tester",
+        "lastName": "Person",
+        "address": "123 Sesame St",
+        "city": "Dallas",
+        "stateOrProvince": "TX",
+        "zipCode": "75201",
+        "country": "US",
+        "dateOfBirth": "2007-12-19",
+        "schoolOrOrganization": "Texas A&M University",
+        "desiredCompetitionId": "3fb895aa-a5ca-4aad-8231-39e4f1710086"
+      }
+    }
+  },
+  "metadata": null
+}
+I, [2022-01-06T19:58:32.887135 #10846]  INFO -- : Received OPTIONS request for mock service administration endpoint POST /users/account-info. Returning CORS headers: {"Access-Control-Allow-Origin"=>"http://localhost", "Access-Control-Allow-Headers"=>"Authorization", "Access-Control-Allow-Methods"=>"DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT, PATCH", "Access-Control-Allow-Credentials"=>"true"}.
+I, [2022-01-06T19:58:32.891366 #10846]  INFO -- : Received request POST /users/account-info
+D, [2022-01-06T19:58:32.891489 #10846] DEBUG -- : {
+  "path": "/users/account-info",
+  "query": "",
+  "method": "post",
+  "body": {
+    "firstName": "Tester",
+    "lastName": "Person",
+    "address": "123 Sesame St",
+    "city": "Dallas",
+    "stateOrProvince": "TX",
+    "zipCode": "75201",
+    "country": "US",
+    "dateOfBirth": "2007-12-19",
+    "schoolOrOrganization": "Texas A&M University"
+  },
+  "headers": {
+    "Content-Length": "213",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "SECRET_TOKEN",
+    "Referer": "http://localhost/",
+    "User-Agent": "Mozilla/5.0 (linux) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/11.12.0",
+    "Accept-Language": "en",
+    "Origin": "http://localhost",
+    "Host": "127.0.0.1:34023",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "close",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2022-01-06T19:58:32.891791 #10846]  INFO -- : Found matching response for POST /users/account-info
+D, [2022-01-06T19:58:32.891907 #10846] DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "json_class": "Pact::SomethingLike",
+    "contents": {
+      "id": "2ecb3faf-fcc8-45ba-9da1-07d9d0c81d7d",
+      "username": "tester-person",
+      "email": "tester@people.com",
+      "firstName": "Tester",
+      "lastName": "Person",
+      "address": "123 Sesame St",
+      "city": "Dallas",
+      "stateOrProvince": "TX",
+      "zipCode": "75201",
+      "country": "US",
+      "dateOfBirth": "2007-12-19",
+      "schoolOrOrganization": "Texas A&M University",
+      "desiredCompetitionId": "3fb895aa-a5ca-4aad-8231-39e4f1710086"
+    }
+  }
+}
+I, [2022-01-06T19:58:32.899531 #10846]  INFO -- : Verifying - interactions matched
+I, [2022-01-06T19:58:32.902156 #10846]  INFO -- : Cleared interactions
+I, [2022-01-06T19:58:32.907846 #10846]  INFO -- : Registered expected interaction POST /users/account-info
+D, [2022-01-06T19:58:32.908034 #10846] DEBUG -- : {
+  "description": "a request to submit account info",
+  "providerState": "i don't get an auth token",
+  "request": {
+    "method": "POST",
+    "path": "/users/account-info",
+    "headers": {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "json_class": "Pact::SomethingLike",
+      "contents": {
+        "firstName": "Tester",
+        "lastName": "Person",
+        "address": "123 Sesame St",
+        "city": "Dallas",
+        "stateOrProvince": "TX",
+        "zipCode": "75201",
+        "country": "US",
+        "dateOfBirth": "2007-12-19",
+        "schoolOrOrganization": "Texas A&M University"
+      }
+    }
+  },
+  "response": {
+    "status": 401,
+    "headers": {
+    }
+  },
+  "metadata": null
+}
+I, [2022-01-06T19:58:32.909393 #10846]  INFO -- : Received OPTIONS request for mock service administration endpoint POST /users/account-info. Returning CORS headers: {"Access-Control-Allow-Origin"=>"http://localhost", "Access-Control-Allow-Headers"=>"Authorization", "Access-Control-Allow-Methods"=>"DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT, PATCH", "Access-Control-Allow-Credentials"=>"true"}.
+I, [2022-01-06T19:58:32.912210 #10846]  INFO -- : Received request POST /users/account-info
+D, [2022-01-06T19:58:32.912342 #10846] DEBUG -- : {
+  "path": "/users/account-info",
+  "query": "",
+  "method": "post",
+  "body": {
+    "firstName": "Tester",
+    "lastName": "Person",
+    "address": "123 Sesame St",
+    "city": "Dallas",
+    "stateOrProvince": "TX",
+    "zipCode": "75201",
+    "country": "US",
+    "dateOfBirth": "2007-12-19",
+    "schoolOrOrganization": "Texas A&M University"
+  },
+  "headers": {
+    "Content-Length": "213",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "SECRET_TOKEN",
+    "Referer": "http://localhost/",
+    "User-Agent": "Mozilla/5.0 (linux) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/11.12.0",
+    "Accept-Language": "en",
+    "Origin": "http://localhost",
+    "Host": "127.0.0.1:34023",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "close",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2022-01-06T19:58:32.912570 #10846]  INFO -- : Found matching response for POST /users/account-info
+D, [2022-01-06T19:58:32.912624 #10846] DEBUG -- : {
+  "status": 401,
+  "headers": {
+  }
+}
+I, [2022-01-06T19:58:32.917590 #10846]  INFO -- : Verifying - interactions matched
+I, [2022-01-06T19:58:32.919947 #10846]  INFO -- : Cleared interactions
+I, [2022-01-06T19:58:32.922639 #10846]  INFO -- : Updating pact for AuthService at /home/ajohnston/school/spacecraft/space-teams/ui/pact/pacts/dashboard-authservice.json
+I, [2022-01-06T19:58:32.923875 #10846]  INFO -- : *****************************************************************************
+I, [2022-01-06T19:58:32.923945 #10846]  INFO -- : Updating existing file ./home/ajohnston/school/spacecraft/space-teams/ui/pact/pacts/dashboard-authservice.json as pactfile_write_mode is :update
+I, [2022-01-06T19:58:32.923999 #10846]  INFO -- : Only interactions defined in this test run will be updated.
+I, [2022-01-06T19:58:32.924038 #10846]  INFO -- : As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite.
+I, [2022-01-06T19:58:32.924081 #10846]  INFO -- : *****************************************************************************

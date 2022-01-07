@@ -1,0 +1,22 @@
+version: "3.4"
+services:
+  ui:
+    #image: ajohnston1219/ui
+    #image: 799661499151.dkr.ecr.us-west-2.amazonaws.com/ui:staging
+    image: 799661499151.dkr.ecr.us-west-2.amazonaws.com/ui:v1.1.16-dev
+    #image: 799661499151.dkr.ecr.us-west-2.amazonaws.com/ui:v0.2.12-staging
+    #image: 799661499151.dkr.ecr.us-west-2.amazonaws.com/ui:v0.2.12-beta
+    #image: 799661499151.dkr.ecr.us-west-2.amazonaws.com/ui:v1.1.16-demo
+    #image: 799661499151.dkr.ecr.us-west-2.amazonaws.com/ui:v1.1.16-prod
+    #image: 799661499151.dkr.ecr.us-west-2.amazonaws.com/ui:v0.2.13-sdcc
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/etc/nginx
+      - ./build:/usr/share/nginx/html
+    environment:
+      - REACT_APP_URL_BASE
+    ports:
+      - 8080:80
+    restart: always

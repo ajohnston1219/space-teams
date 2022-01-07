@@ -1,0 +1,28 @@
+$breakpoint-desk-phone-sm: 26.56em;     // 425px
+$breakpoint-desk-phone: 43.75em;        // 700px
+$breakpoint-desk-tablet-port: 59.375em; // 950px
+$breakpoint-desk-tablet-land: 75em;     // 1200px
+$breakpoint-desk-desktop: 93.75em;      // 1500px
+
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media only screen and (max-width: $breakpoint-desk-phone) {
+            @content;
+        }
+    }
+    @if $breakpoint == tablet-port {
+        @media only screen and (max-width: $breakpoint-desk-tablet-port) {
+            @content;
+        }
+    }
+    @if $breakpoint == tablet-land {
+        @media only screen and (max-width: $breakpoint-desk-tablet-land) {
+            @content;
+        }
+    }
+    @if $breakpoint == desktop-lg {
+        @media only screen and (min-width: $breakpoint-desk-desktop-lg) {
+            @content;
+        }
+    }
+}

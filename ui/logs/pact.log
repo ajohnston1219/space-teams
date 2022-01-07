@@ -1,0 +1,95 @@
+I, [2022-01-06T18:14:11.394332 #4503]  INFO -- : Registered expected interaction POST /users
+D, [2022-01-06T18:14:11.394590 #4503] DEBUG -- : {
+  "description": "a request to create a new user",
+  "providerState": "i do not have a user with the provided username and email",
+  "request": {
+    "method": "POST",
+    "path": "/users",
+    "headers": {
+      "Accept": "application/json"
+    },
+    "body": {
+      "username": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "tester-person"
+      },
+      "email": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "tester@people.com"
+      },
+      "password": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "SuperSecret007!"
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "c91d22f2-de9c-477e-8db6-c9e32415da67"
+      },
+      "username": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "tester-person"
+      },
+      "email": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "tester@people.com"
+      }
+    }
+  },
+  "metadata": null
+}
+I, [2022-01-06T18:14:11.396399 #4503]  INFO -- : Received request POST /users
+D, [2022-01-06T18:14:11.396569 #4503] DEBUG -- : {
+  "path": "/users",
+  "query": "",
+  "method": "post",
+  "body": {
+    "username": "tester-person",
+    "email": "tester@people.com",
+    "password": "SuperSecret007!"
+  },
+  "headers": {
+    "Content-Length": "85",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Referer": "http://localhost/",
+    "User-Agent": "Mozilla/5.0 (linux) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/11.12.0",
+    "Accept-Language": "en",
+    "Origin": "http://localhost",
+    "Host": "localhost:5000",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "close",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2022-01-06T18:14:11.397142 #4503]  INFO -- : Found matching response for POST /users
+D, [2022-01-06T18:14:11.397253 #4503] DEBUG -- : {
+  "status": 201,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "id": {
+      "json_class": "Pact::SomethingLike",
+      "contents": "c91d22f2-de9c-477e-8db6-c9e32415da67"
+    },
+    "username": {
+      "json_class": "Pact::SomethingLike",
+      "contents": "tester-person"
+    },
+    "email": {
+      "json_class": "Pact::SomethingLike",
+      "contents": "tester@people.com"
+    }
+  }
+}
+I, [2022-01-06T18:14:11.410422 #4503]  INFO -- : Verifying - interactions matched
+I, [2022-01-06T18:14:11.413017 #4503]  INFO -- : Cleared interactions
+I, [2022-01-06T18:14:11.415880 #4503]  INFO -- : Writing pact for AuthService to /home/ajohnston/school/spacecraft/space-teams/ui/pacts/dashboard-authservice.json
