@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   auth:
-    image: ajohnston1219/auth:dev
+    image: ajohnston1219/example-app:test
     build:
       context: ./auth
       dockerfile: Dockerfile.dev
@@ -17,7 +17,6 @@ services:
       - NAMESPACE
     ports:
       - 5000:5000
-    restart: always
   db:
     image: ajohnston1219/db:dev
     build:
