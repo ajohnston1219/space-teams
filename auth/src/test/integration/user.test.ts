@@ -67,8 +67,8 @@ describe("User Service", () => {
         const result = await userService.authenticateUser(authenticationRequest);
 
         // Assert
-        const expected = AuthenticationResult.Successful();
-        expect(expected).toStrictEqual(result);
+        const expected = AuthenticationResult.Successful(user);
+        expect(result).toStrictEqual(expected);
     });
 
     it("Successfully authenticates user by email/password", async () => {
@@ -76,14 +76,14 @@ describe("User Service", () => {
         await cleanDatabase();
         const EMAIL = "tester@people.com";
         const PASSWORD = "SuperSecret007!";
-        await createUser(userService, { email: EMAIL, password: PASSWORD });
+        const user = await createUser(userService, { email: EMAIL, password: PASSWORD });
         const authenticationRequest = AuthenticationRequest.ByEmail(EMAIL, PASSWORD);
         // Act
         const result = await userService.authenticateUser(authenticationRequest);
 
         // Assert
-        const expected = AuthenticationResult.Successful();
-        expect(expected).toStrictEqual(result);
+        const expected = AuthenticationResult.Successful(user);
+        expect(result).toStrictEqual(expected);
     });
 
     it("Fails to authenticate user when user not found by username", async () => {
@@ -98,7 +98,7 @@ describe("User Service", () => {
 
         // Assert
         const expected = AuthenticationResult.UserNotFound(authenticationRequest);
-        expect(expected).toStrictEqual(result);
+        expect(result).toStrictEqual(expected);
     });
 
     it("Fails to authenticate user when user not found by email", async () => {
@@ -113,7 +113,7 @@ describe("User Service", () => {
 
         // Assert
         const expected = AuthenticationResult.UserNotFound(authenticationRequest);
-        expect(expected).toStrictEqual(result);
+        expect(result).toStrictEqual(expected);
     });
 
     it("Fails to authenticate user when password is incorrect", async () => {
@@ -129,6 +129,6 @@ describe("User Service", () => {
 
         // Assert
         const expected = AuthenticationResult.InvalidPassword();
-        expect(expected).toStrictEqual(result);
+        expect(result).toStrictEqual(expected);
     });
 });

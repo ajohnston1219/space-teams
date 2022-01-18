@@ -37,13 +37,13 @@ export enum AuthenticationFailureReason {
 }
 
 export class AuthenticationResult {
-    public static Successful(): AuthenticationResult {
-        return new AuthenticationResult(true, null, null);
+    public static Successful(user: User): AuthenticationResult {
+        return new AuthenticationResult(true, null, null, user);
     }
 
     public static InvalidPassword() {
         return new AuthenticationResult(
-            false, "Invalid password", AuthenticationFailureReason.INVALID_PASSWORD
+            false, "Invalid password", AuthenticationFailureReason.INVALID_PASSWORD, null
         );
     }
 
@@ -56,18 +56,20 @@ export class AuthenticationResult {
                 message = `User with email '${request.usernameOrEmail}' not found`;
         }
         return new AuthenticationResult(
-            false, message, AuthenticationFailureReason.USER_NOT_FOUND
+            false, message, AuthenticationFailureReason.USER_NOT_FOUND, null
         );
     }
 
     public get reason(): AuthenticationFailureReason | null { return this._reason; }
     public get message(): string | null { return this._message; }
     public get successful(): boolean { return this._successful; }
+    public get user(): User | null { return this._user; }
 
     private constructor(
         private readonly _successful: boolean,
         private readonly _message: string | null,
-        private readonly _reason: AuthenticationFailureReason | null
+        private readonly _reason: AuthenticationFailureReason | null,
+        private readonly _user: User | null
     ) {}
 }
 
@@ -81,7 +83,11 @@ export default class UserService {
             request.username, request.email, request.password
         );
         await this.userRepository.createUser(user);
-        return user;
+        // NOTE(adam): We need to construct default registration here.
+        //             Until then, we get the user from the database
+        const createdUser = await this.userRepository.findUserById(user.id);
+        if (!createdUser) throw new Error("User not found in repository");
+        return createdUser;
     }
 
     public async authenticateUser(request: AuthenticationRequest): Promise<AuthenticationResult> {
@@ -101,7 +107,7 @@ export default class UserService {
         if (!success) {
             return AuthenticationResult.InvalidPassword();
         }
-        return AuthenticationResult.Successful();
+        return AuthenticationResult.Successful(user);
     }
 
     public async getUserById(id: string): Promise<User | null> {

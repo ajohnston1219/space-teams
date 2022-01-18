@@ -7,29 +7,36 @@
     "test": "jest unit",
     "db-types": "npx @databases/pg-schema-cli --database postgres://spacecraft:spacecraft@localhost:5432/spacecraft --directory src/repository/__generated__",
     "test:all": "./all-tests.sh",
-    "test:integration": "./integration-tests.sh"
+    "test:integration": "./integration-tests.sh",
+    "test:api": "./api-tests.sh"
   },
   "author": "Adam Johnston",
   "license": "ISC",
   "devDependencies": {
     "@databases/pg-schema-cli": "^4.2.0",
     "@pact-foundation/pact": "^9.17.1",
+    "@tsconfig/recommended": "^1.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.3",
     "@types/luxon": "^2.0.8",
     "@types/sinon": "^10.0.6",
+    "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.3",
     "jest": "^27.4.5",
     "sinon": "^12.0.1",
+    "supertest": "^6.2.1",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
   },
   "dependencies": {
     "@databases/pg-typed": "^4.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
     "luxon": "^2.2.0",
     "uuid": "^8.3.2"
   }
