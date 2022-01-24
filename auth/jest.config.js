@@ -4,4 +4,7 @@ module.exports = {
   testEnvironment: 'node',
 	silent: false,
 	verbose: true,
+	setupFiles: [
+		'./jest.integration.setup.js'
+	]
 };
