@@ -34,7 +34,7 @@ node {
                 docker
                     .image('node:17')
                     .inside('--network my-net') {
-                        sh 'cd auth && npm install --only=dev && npx jest integration --runInBand --setupFiles=./jest.integration.setup.js'
+                        sh 'cd auth && npm install --only=dev && npx jest integration --runInBand --setupFiles=./jest.jenkins.setup.js'
                     }
             }
         sh 'docker network rm my-net'
